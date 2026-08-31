@@ -1,6 +1,5 @@
 """Tests for the today's-menu sensors."""
 
-from types import SimpleNamespace
 from unittest.mock import MagicMock
 
 from freezegun import freeze_time

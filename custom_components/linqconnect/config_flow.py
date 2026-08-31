@@ -119,7 +119,7 @@ class LinqConnectConfigFlow(ConfigFlow, domain=DOMAIN):
 
     @staticmethod
     @callback
-    def async_get_options_flow(config_entry) -> "LinqConnectOptionsFlow":
+    def async_get_options_flow(config_entry) -> LinqConnectOptionsFlow:
         """Return the options flow."""
         return LinqConnectOptionsFlow()
 
