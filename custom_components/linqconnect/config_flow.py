@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 import voluptuous as vol
@@ -27,6 +28,8 @@ from .const import (
     DOMAIN,
     SESSION_CHOICES,
 )
+
+_LOGGER = logging.getLogger(__name__)
 
 USER_SCHEMA = vol.Schema(
     {
@@ -61,14 +64,16 @@ class LinqConnectConfigFlow(ConfigFlow, domain=DOMAIN):
                     self._district = await self._client().resolve_identifier(code)
                 except DistrictNotFoundError:
                     errors[CONF_SHARE_CODE] = "district_not_found"
-                except LinqConnectApiError:
+                except LinqConnectApiError as err:
+                    _LOGGER.warning("LINQ Connect API error: %s", err)
                     errors["base"] = "cannot_connect"
                 else:
                     return await self._async_district_resolved()
             elif name:
                 try:
                     self._matches = await self._client().search_districts(name)
-                except LinqConnectApiError:
+                except LinqConnectApiError as err:
+                    _LOGGER.warning("LINQ Connect API error: %s", err)
                     errors["base"] = "cannot_connect"
                 else:
                     if not self._matches:
@@ -99,7 +104,8 @@ class LinqConnectConfigFlow(ConfigFlow, domain=DOMAIN):
                 self._district = await self._client().resolve_identifier(
                     match.identifier
                 )
-            except LinqConnectApiError:
+            except LinqConnectApiError as err:
+                _LOGGER.warning("LINQ Connect API error: %s", err)
                 errors["base"] = "cannot_connect"
             else:
                 return await self._async_district_resolved()
@@ -178,7 +184,8 @@ class LinqConnectOptionsFlow(OptionsFlow):
         client = LinqConnectClient(async_get_clientsession(self.hass))
         try:
             district = await client.resolve_identifier(entry.data[CONF_IDENTIFIER])
-        except LinqConnectApiError:
+        except LinqConnectApiError as err:
+            _LOGGER.warning("LINQ Connect API error: %s", err)
             return self.async_abort(reason="cannot_connect")
         buildings = {b.building_id: b.name for b in district.buildings}
         if user_input is not None:

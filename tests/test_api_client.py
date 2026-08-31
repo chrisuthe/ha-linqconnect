@@ -69,6 +69,13 @@ async def test_network_error_raises_api_error(session):
             await LinqConnectClient(session).resolve_identifier("AZB89G")
 
 
+async def test_malformed_response_raises_api_error(session):
+    with aioresponses() as mocked:
+        mocked.get(IDENTIFIER_URL, payload={"unexpected": True})
+        with pytest.raises(LinqConnectApiError):
+            await LinqConnectClient(session).resolve_identifier("AZB89G")
+
+
 async def test_search_districts(session, load_fixture):
     with aioresponses() as mocked:
         mocked.get(SEARCH_URL, payload=load_fixture("family_district_search.json"))

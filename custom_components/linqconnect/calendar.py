@@ -60,6 +60,14 @@ class LinqConnectCalendar(
             model=MODEL,
         )
 
+    @property
+    def available(self) -> bool:
+        """Stay available on stale data while the API is unreachable."""
+        return (
+            super().available
+            or self._building_id in (self.coordinator.data or {})
+        )
+
     def _days(self) -> list[DayMenu]:
         return sorted(
             (

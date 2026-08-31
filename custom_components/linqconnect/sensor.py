@@ -69,6 +69,14 @@ class LinqConnectMenuSensor(
             model=MODEL,
         )
 
+    @property
+    def available(self) -> bool:
+        """Stay available on stale data while the API is unreachable."""
+        return (
+            super().available
+            or self._building_id in (self.coordinator.data or {})
+        )
+
     def _today(self) -> DayMenu | None:
         today = dt_util.now().date()
         for day in (self.coordinator.data or {}).get(self._building_id, []):

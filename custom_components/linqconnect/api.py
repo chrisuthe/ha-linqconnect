@@ -159,7 +159,12 @@ class LinqConnectClient:
     async def resolve_identifier(self, code: str) -> District:
         """Resolve a share code (e.g. 'AZB89G') to a District with buildings."""
         data = await self._get("FamilyMenuIdentifier", {"identifier": code})
-        return parse_district(data)
+        try:
+            return parse_district(data)
+        except (KeyError, ValueError, TypeError) as err:
+            raise LinqConnectApiError(
+                f"Malformed response from FamilyMenuIdentifier: {err!r}"
+            ) from err
 
     async def search_districts(self, name: str) -> list[District]:
         """Search districts by name; results have no buildings populated."""
@@ -167,7 +172,12 @@ class LinqConnectClient:
             "FamilyDistrictSearch",
             {"currentPage": 0, "pageSize": 20, "searchText": name},
         )
-        return parse_search_results(data)
+        try:
+            return parse_search_results(data)
+        except (KeyError, ValueError, TypeError) as err:
+            raise LinqConnectApiError(
+                f"Malformed response from FamilyDistrictSearch: {err!r}"
+            ) from err
 
     async def get_menus(
         self, district_id: str, building_id: str, start: date, end: date
@@ -182,4 +192,9 @@ class LinqConnectClient:
                 "endDate": format_api_date(end),
             },
         )
-        return parse_menus(data)
+        try:
+            return parse_menus(data)
+        except (KeyError, ValueError, TypeError) as err:
+            raise LinqConnectApiError(
+                f"Malformed response from FamilyMenu: {err!r}"
+            ) from err
