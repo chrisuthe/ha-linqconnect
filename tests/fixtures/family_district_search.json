@@ -1,0 +1,24 @@
+{
+  "Data": [
+    {
+      "DistrictId": "b1d7358a-818b-ec11-90c7-d2d97b40e955",
+      "Identifier": "AZB89G",
+      "Name": "Brandon Valley School District",
+      "City": "Brandon",
+      "State": "South Dakota",
+      "IsActive": true
+    },
+    {
+      "DistrictId": "00000000-0000-0000-0000-000000000001",
+      "Identifier": "ZZZZZZ",
+      "Name": "Brandon Closed District",
+      "City": "Nowhere",
+      "State": "South Dakota",
+      "IsActive": false
+    }
+  ],
+  "CurrentPage": 0,
+  "PageSize": 20,
+  "TotalPages": 1,
+  "TotalRecords": 2
+}
