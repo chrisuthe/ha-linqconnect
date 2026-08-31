@@ -1,6 +1,5 @@
 """Tests for entry setup, unload, and device removal."""
 
-import pytest
 from freezegun import freeze_time
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.helpers import device_registry as dr
@@ -12,7 +11,6 @@ from custom_components.linqconnect.const import DOMAIN
 from .conftest import BUILDING_1
 
 
-@pytest.mark.xfail(reason="entities land in tasks 8-9", strict=True)
 @freeze_time("2026-08-31 12:00:00")
 async def test_setup_and_unload(hass, mock_config_entry, mock_api):
     mock_config_entry.add_to_hass(hass)
