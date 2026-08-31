@@ -5,7 +5,8 @@ from __future__ import annotations
 from typing import Any
 
 import voluptuous as vol
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
+from homeassistant.core import callback
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -116,6 +117,12 @@ class LinqConnectConfigFlow(ConfigFlow, domain=DOMAIN):
         self._abort_if_unique_id_configured()
         return await self.async_step_schools()
 
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry) -> "LinqConnectOptionsFlow":
+        """Return the options flow."""
+        return LinqConnectOptionsFlow()
+
     async def async_step_schools(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
@@ -153,6 +160,54 @@ class LinqConnectConfigFlow(ConfigFlow, domain=DOMAIN):
                     ),
                     vol.Required(
                         CONF_SESSIONS, default=DEFAULT_SESSIONS
+                    ): cv.multi_select(SESSION_CHOICES),
+                }
+            ),
+            errors=errors,
+        )
+
+
+class LinqConnectOptionsFlow(OptionsFlow):
+    """Change selected schools and sessions; building list is re-fetched."""
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        errors: dict[str, str] = {}
+        entry = self.config_entry
+        client = LinqConnectClient(async_get_clientsession(self.hass))
+        try:
+            district = await client.resolve_identifier(entry.data[CONF_IDENTIFIER])
+        except LinqConnectApiError:
+            return self.async_abort(reason="cannot_connect")
+        buildings = {b.building_id: b.name for b in district.buildings}
+        if user_input is not None:
+            if not user_input[CONF_BUILDINGS]:
+                errors[CONF_BUILDINGS] = "no_schools"
+            elif not user_input[CONF_SESSIONS]:
+                errors[CONF_SESSIONS] = "no_sessions"
+            else:
+                return self.async_create_entry(
+                    data={
+                        CONF_BUILDINGS: {
+                            building_id: buildings[building_id]
+                            for building_id in user_input[CONF_BUILDINGS]
+                        },
+                        CONF_SESSIONS: user_input[CONF_SESSIONS],
+                    }
+                )
+        current = entry.options
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_BUILDINGS,
+                        default=list(current.get(CONF_BUILDINGS, {})),
+                    ): cv.multi_select(buildings),
+                    vol.Required(
+                        CONF_SESSIONS,
+                        default=current.get(CONF_SESSIONS, DEFAULT_SESSIONS),
                     ): cv.multi_select(SESSION_CHOICES),
                 }
             ),
