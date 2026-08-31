@@ -1,6 +1,6 @@
 """Tests for the config flow."""
 
-from unittest.mock import AsyncMock, patch
+from unittest.mock import patch
 
 import pytest
 from homeassistant.data_entry_flow import FlowResultType
@@ -103,6 +103,17 @@ async def test_name_search_happy_path(hass, mock_flow_client, mock_setup):
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert result["options"][CONF_SESSIONS] == ["Breakfast", "Lunch"]
+
+
+async def test_code_wins_when_both_fields_filled(hass, mock_flow_client, mock_setup):
+    result = await _start(hass)
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {CONF_SHARE_CODE: "L36JZQ", CONF_DISTRICT_NAME: "some other district"},
+    )
+    assert result["step_id"] == "schools"
+    mock_flow_client.resolve_identifier.assert_awaited_once_with("L36JZQ")
+    mock_flow_client.search_districts.assert_not_awaited()
 
 
 async def test_bad_share_code_shows_error(hass, mock_flow_client):
