@@ -128,3 +128,58 @@ def parse_menus(data: dict) -> list[DayMenu]:
                             if name and name not in category.items:
                                 category.items.append(name)
     return sorted(merged.values(), key=lambda d: (d.date, d.session))
+
+
+class LinqConnectClient:
+    """Thin async client; the caller owns the aiohttp session."""
+
+    def __init__(self, session: aiohttp.ClientSession) -> None:
+        self._session = session
+
+    async def _get(self, path: str, params: dict) -> dict:
+        try:
+            async with self._session.get(
+                f"{API_BASE}/{path}",
+                params=params,
+                headers={"User-Agent": USER_AGENT, "Accept": "application/json"},
+                timeout=aiohttp.ClientTimeout(total=30),
+            ) as resp:
+                if resp.status == 404:
+                    raise DistrictNotFoundError(f"{path}: not found")
+                if resp.status == 403:
+                    raise LinqConnectApiError(
+                        "Blocked by LINQ Connect WAF (HTTP 403); "
+                        "the User-Agent header may need updating"
+                    )
+                resp.raise_for_status()
+                return await resp.json()
+        except (aiohttp.ClientError, TimeoutError) as err:
+            raise LinqConnectApiError(f"Error calling {path}: {err}") from err
+
+    async def resolve_identifier(self, code: str) -> District:
+        """Resolve a share code (e.g. 'AZB89G') to a District with buildings."""
+        data = await self._get("FamilyMenuIdentifier", {"identifier": code})
+        return parse_district(data)
+
+    async def search_districts(self, name: str) -> list[District]:
+        """Search districts by name; results have no buildings populated."""
+        data = await self._get(
+            "FamilyDistrictSearch",
+            {"currentPage": 0, "pageSize": 20, "searchText": name},
+        )
+        return parse_search_results(data)
+
+    async def get_menus(
+        self, district_id: str, building_id: str, start: date, end: date
+    ) -> list[DayMenu]:
+        """Fetch parsed menus for one building over [start, end]."""
+        data = await self._get(
+            "FamilyMenu",
+            {
+                "districtId": district_id,
+                "buildingId": building_id,
+                "startDate": format_api_date(start),
+                "endDate": format_api_date(end),
+            },
+        )
+        return parse_menus(data)
