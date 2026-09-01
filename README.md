@@ -11,6 +11,11 @@ the same public API as your district's shared menu link.
 - One **sensor** per school per serving session (default: Lunch) with
   today's entrées as its state and the full menu as attributes — handy for
   dashboards and TTS ("what's for lunch today?").
+- A **"Next" sensor** per school per serving session that always shows the
+  next upcoming menu: today's until a rollover time (default 1:00 PM,
+  configurable via **Configure**), then the next school day's — so Friday
+  afternoon and all weekend it shows Monday. Attributes include the date
+  and a friendly `day` label (`Today` / `Tomorrow` / weekday name).
 
 ## Installation
 
