@@ -1,0 +1,103 @@
+{
+  "FamilyMenuSessions": [
+    {
+      "ServingSession": "Breakfast",
+      "MenuPlans": [
+        {
+          "MenuPlanName": "All Schools Breakfast 26/27",
+          "Days": [
+            {
+              "Date": "8/31/2026",
+              "MenuMeals": [
+                {
+                  "MenuMealName": "Week 2 Monday",
+                  "RecipeCategories": [
+                    {
+                      "CategoryName": "Main Entrée",
+                      "Recipes": [
+                        {"RecipeName": "French Toast Sticks"},
+                        {"RecipeName": "Cereal Variety"}
+                      ]
+                    },
+                    {"CategoryName": "Fruit", "Recipes": [{"RecipeName": "Banana"}]}
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ServingSession": "Lunch",
+      "MenuPlans": [
+        {
+          "MenuPlanName": "Elementary Lunch 26/27",
+          "Days": [
+            {
+              "Date": "8/31/2026",
+              "MenuMeals": [
+                {
+                  "MenuMealName": "Week 2 Monday",
+                  "RecipeCategories": [
+                    {
+                      "CategoryName": "Main Entrée",
+                      "Recipes": [
+                        {"RecipeName": "Italian Dunkers"},
+                        {"RecipeName": "Bagel Bag"}
+                      ]
+                    },
+                    {
+                      "CategoryName": "Vegetable",
+                      "Recipes": [
+                        {"RecipeName": "Green Beans"},
+                        {"RecipeName": "Baby Carrots"}
+                      ]
+                    },
+                    {"CategoryName": "Fruit", "Recipes": [{"RecipeName": "Sliced Peaches"}]},
+                    {
+                      "CategoryName": "Milk",
+                      "Recipes": [
+                        {"RecipeName": "1% Milk"},
+                        {"RecipeName": "Chocolate Milk"}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "MenuMealName": "Garden Bar",
+                  "RecipeCategories": [
+                    {
+                      "CategoryName": "Main Entrée",
+                      "Recipes": [
+                        {"RecipeName": "Garden Bar"},
+                        {"RecipeName": "Bagel Bag"}
+                      ]
+                    },
+                    {"CategoryName": "Condiments", "Recipes": [{"RecipeName": "Ranch Dressing"}]}
+                  ]
+                }
+              ]
+            },
+            {
+              "Date": "9/1/2026",
+              "MenuMeals": [
+                {
+                  "MenuMealName": "Week 2 Tuesday",
+                  "RecipeCategories": [
+                    {
+                      "CategoryName": "Main Entrée",
+                      "Recipes": [{"RecipeName": "Crispy Chicken Sandwich"}]
+                    },
+                    {"CategoryName": "Vegetable", "Recipes": [{"RecipeName": "Corn"}]}
+                  ]
+                }
+              ]
+            },
+            {"Date": "9/2/2026", "MenuMeals": []}
+          ]
+        }
+      ]
+    }
+  ]
+}

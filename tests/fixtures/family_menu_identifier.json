@@ -1,0 +1,12 @@
+{
+  "DistrictId": "b1d7358a-818b-ec11-90c7-d2d97b40e955",
+  "DistrictName": "Brandon Valley School District",
+  "Buildings": [
+    {"BuildingId": "0c65b2bc-908d-ec11-8df7-9566c4096294", "Name": "Inspiration Elementary"},
+    {"BuildingId": "041717d0-8f8d-ec11-8df7-eb7b319a32d1", "Name": "Brandon Elementary"},
+    {"BuildingId": "2e94e37a-8f8d-ec11-8df7-eb7b319a32d1", "Name": "Brandon Valley Middle School"}
+  ],
+  "SelectedBuildingId": "0c65b2bc-908d-ec11-8df7-9566c4096294",
+  "MenuNotification": "** Menu Is Subject To Change **",
+  "Identifier": "AZB89G"
+}

@@ -1,0 +1,56 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Find your district",
+        "description": "Enter the share code from your district's public menu link (linqconnect.com/public/menu/CODE), or search by district name.",
+        "data": {
+          "share_code": "Share code",
+          "district_name": "District name"
+        }
+      },
+      "pick_district": {
+        "title": "Select district",
+        "data": {
+          "district_id": "District"
+        }
+      },
+      "schools": {
+        "title": "Choose schools and meals",
+        "data": {
+          "buildings": "Schools",
+          "sessions": "Serving sessions"
+        }
+      }
+    },
+    "error": {
+      "district_not_found": "No district found for that share code.",
+      "no_results": "No districts matched that name.",
+      "cannot_connect": "Could not reach LINQ Connect.",
+      "missing_input": "Enter a share code or a district name.",
+      "no_schools": "Select at least one school.",
+      "no_sessions": "Select at least one serving session."
+    },
+    "abort": {
+      "already_configured": "This district is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Schools and meals",
+        "data": {
+          "buildings": "Schools",
+          "sessions": "Serving sessions"
+        }
+      }
+    },
+    "error": {
+      "no_schools": "Select at least one school.",
+      "no_sessions": "Select at least one serving session."
+    },
+    "abort": {
+      "cannot_connect": "Could not reach LINQ Connect."
+    }
+  }
+}

@@ -183,9 +183,10 @@ One `DataUpdateCoordinator[dict[str, list[DayMenu]]]` per entry
 - **Window per refresh:** previous Monday → +42 days.
 - One `get_menus` call per selected building per refresh, sequential (be
   kind to the API; 8 schools = 8 quick GETs).
-- Failures raise `UpdateFailed`; coordinator serves last-good data and
-  entities stay available with stale data until recovery (standard
-  coordinator behavior). First refresh via
+- Failures raise `UpdateFailed`; the coordinator keeps its last-good data,
+  and the entities override `available` to stay available while cached
+  data for their building exists (plain coordinator entities would flip
+  unavailable on a single failed refresh). First refresh via
   `async_config_entry_first_refresh` so a dead API fails setup visibly
   (`ConfigEntryNotReady`).
 

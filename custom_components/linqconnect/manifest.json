@@ -1,0 +1,12 @@
+{
+  "domain": "linqconnect",
+  "name": "LINQ Connect Menus",
+  "codeowners": ["@chrisuthe"],
+  "config_flow": true,
+  "documentation": "https://github.com/chrisuthe/ha-linqconnect",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/chrisuthe/ha-linqconnect/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
