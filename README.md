@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" width="140" alt="LINQ Connect Menus logo">
+</p>
+
 # LINQ Connect Menus for Home Assistant
 
 School breakfast/lunch menus from [LINQ Connect](https://linqconnect.com)
