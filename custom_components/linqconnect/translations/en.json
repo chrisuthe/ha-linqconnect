@@ -41,7 +41,8 @@
         "title": "Schools and meals",
         "data": {
           "buildings": "Schools",
-          "sessions": "Serving sessions"
+          "sessions": "Serving sessions",
+          "rollover_time": "Show the next day's menu after"
         }
       }
     },

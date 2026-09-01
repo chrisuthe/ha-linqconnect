@@ -10,6 +10,7 @@ from homeassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFl
 from homeassistant.core import callback
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.selector import TimeSelector
 
 from .api import (
     District,
@@ -22,8 +23,10 @@ from .const import (
     CONF_DISTRICT_ID,
     CONF_DISTRICT_NAME,
     CONF_IDENTIFIER,
+    CONF_ROLLOVER_TIME,
     CONF_SESSIONS,
     CONF_SHARE_CODE,
+    DEFAULT_ROLLOVER_TIME,
     DEFAULT_SESSIONS,
     DOMAIN,
     SESSION_CHOICES,
@@ -201,6 +204,7 @@ class LinqConnectOptionsFlow(OptionsFlow):
                             for building_id in user_input[CONF_BUILDINGS]
                         },
                         CONF_SESSIONS: user_input[CONF_SESSIONS],
+                        CONF_ROLLOVER_TIME: user_input[CONF_ROLLOVER_TIME],
                     }
                 )
         current = entry.options
@@ -216,6 +220,12 @@ class LinqConnectOptionsFlow(OptionsFlow):
                         CONF_SESSIONS,
                         default=current.get(CONF_SESSIONS, DEFAULT_SESSIONS),
                     ): cv.multi_select(SESSION_CHOICES),
+                    vol.Required(
+                        CONF_ROLLOVER_TIME,
+                        default=current.get(
+                            CONF_ROLLOVER_TIME, DEFAULT_ROLLOVER_TIME
+                        ),
+                    ): TimeSelector(),
                 }
             ),
             errors=errors,
