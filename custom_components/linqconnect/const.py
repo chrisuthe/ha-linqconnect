@@ -16,7 +16,9 @@ CONF_DISTRICT_ID = "district_id"
 CONF_IDENTIFIER = "identifier"
 CONF_BUILDINGS = "buildings"
 CONF_SESSIONS = "sessions"
+CONF_ROLLOVER_TIME = "rollover_time"
 
+DEFAULT_ROLLOVER_TIME = "13:00:00"
 DEFAULT_SESSIONS = ["Lunch"]
 SESSION_CHOICES = ["Breakfast", "Lunch", "Snack", "Dinner"]
 
